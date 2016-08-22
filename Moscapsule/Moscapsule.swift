@@ -407,7 +407,7 @@ public final class MQTT {
             let message = rawMessage.pointee
             // If there are issues with topic string, drop message on the floor
             if let topic = String(validatingUTF8: message.topic) {
-                let payload = Data(bytes: UnsafePointer<UInt8>(message.payload), count: Int(message.payloadlen))
+                let payload = Data(bytes: UnsafeRawPointer(message.payload), count: Int(message.payloadlen))
                 let mqttMessage = MQTTMessage(messageId: Int(message.mid), topic: topic, payload: payload, qos: message.qos, retain: message.retain)
                 callback(mqttMessage)
             }
